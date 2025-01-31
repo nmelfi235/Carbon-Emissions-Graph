@@ -11,7 +11,6 @@ export default function LineGraph({
   height = 400,
   data,
 }) {
-  const [d, setD] = useState(data);
   /*
   const tooltip = useRef(d3.create("g"));
   const bisect = d3.bisector((d) => new Date(d["Date"])).center; // function that gets the

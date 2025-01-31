@@ -23,8 +23,14 @@ const fetchData = async (username, pswd) => {
   }).then((res) => res.json());
 };
 
+const fetchFromNodeRed = async () => {
+  const url = "http://127.0.0.1:1880/genfuelmix";
+  return await fetch(url, { method: "GET" }).then((res) => res.json());
+};
+
 function App() {
   const [data, setData] = useState([
+    [{ Date: "0", FuelCategory: "Refuse", Emissions: "0" }],
     [{ Date: "0", FuelCategory: "Refuse", Emissions: "0" }],
     [{ Date: "0", FuelCategory: "Refuse", Emissions: "0" }],
     [{ Date: "0", FuelCategory: "Refuse", Emissions: "0" }],
@@ -78,6 +84,11 @@ function App() {
       .then((d) => console.log(data));
   };
 
+  const handleSubmitNodeRed = (e) => {
+    e.preventDefault();
+    fetchFromNodeRed().then((d) => setData(d));
+  };
+
   return (
     <>
       <label htmlFor="username-input">Username:</label>
@@ -92,7 +103,7 @@ function App() {
         id="password-input"
         onChange={(e) => setPswd(e.target.value)}
       />
-      <button type="button" onClick={handleSubmit}>
+      <button type="button" onClick={handleSubmitNodeRed}>
         Submit
       </button>
       <LineGraph data={data} height={800} />
