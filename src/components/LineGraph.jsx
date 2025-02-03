@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from "react";
 import * as d3 from "d3";
 
 // Data must be pre-processed before being input into LineGraph
-export default function LineGraph({
+function LineGraph({
   marginTop = 50,
   marginRight = 50,
   marginBottom = 50,
@@ -150,3 +150,22 @@ export default function LineGraph({
     </svg>
   );
 }
+
+const fetchFromNodeRed = async () => {
+  const url = "http://127.0.0.1:1880/genfuelmix";
+  return await fetch(url, { method: "GET" }).then((res) => res.json());
+};
+
+function StateOfCarbon() {
+  const [data, setData] = useState([]); // Data will be an array of objects
+
+  useEffect(() => {
+    fetchFromNodeRed().then((d) => setData(d));
+  }, []);
+
+  return (
+    <>{data.length > 0 ? <LineGraph data={data} height={800} /> : <></>}</>
+  );
+}
+
+export default StateOfCarbon;
